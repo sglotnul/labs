@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices.ComTypes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication1.Controllers;
@@ -24,8 +25,8 @@ public class MainController : Controller
                                 <option value="juice">Сок</option>
                                 <option value="alcohol">Хихи</option>
                             </select><br/>
-                            <input type="text" name="milk" value="0"><br/>
-                            <input type="text" name="sugar" value="0"><br/>
+                            <input type="number" name="milk" value="0"><br/>
+                            <input type="number" name="sugar" value="0"><br/>
                             <button type="submit">Ok</button>
                         </form>
                     </body>
@@ -37,18 +38,21 @@ public class MainController : Controller
     [HttpPost("choose")]
     public ContentResult Order(string drink, int? milk, int? sugar)
     {
+        const int SugarPrice = 1;
+        const int MilkPrice = 2;
+        
         if (!milk.HasValue)
             throw new ValidationException("invalid milk value");
         
         if (!sugar.HasValue)
             throw new ValidationException("invalid sugar value");
 
-        var drinkType = drink switch
+        var (drinkType, price) = drink switch
         {
-            "tea" => "Чай",
-            "coffee" => "Кофе",
-            "juice" => "Сок",
-            "alcohol" => "Хихи",
+            "tea" => ("Чай", 80),
+            "coffee" => ("Кофе", 100),
+            "juice" => ("Сок", 120),
+            "alcohol" => ("Хихи", 250),
             _ => throw new ValidationException("invalid drink type")
         };
 
@@ -64,10 +68,14 @@ public class MainController : Controller
                         <span>Тип напитка: {drinkType}</span><br/>
                         <span>Молоко: {milk}</span><br/>
                         <span>Сахар: {sugar}</span><br/>
+                        <span>Стоимость: {CalculateTotalPrice()}</span><br/>
                         <a href="/drinks">На главную</a>
                     </body>
                 </html>
                 """
         };
+
+        int CalculateTotalPrice()
+            => price + SugarPrice * sugar.Value + MilkPrice * milk.Value;
     }
 }
