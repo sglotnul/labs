@@ -32,14 +32,29 @@
             padding: 6px;
             margin-top: 6px;
         }
-        price-label{
+        label{
             position: absolute;
-            top: 6px;
             right: 6px;
-            background-color: blue;
             color: white;
             border-radius: 4px;
             padding: 3px 5px;
+            max-height: 25px;
+        }
+        cart-bar{
+            display: flex;
+            float: right;
+        }
+        .cart-bar-label{
+            margin-right: 6px;
+        }
+        .price-label{
+            top: 6px;
+            background-color: blue;
+        }
+        .add-to-cart-label{
+            bottom: 6px;
+            background-color: green;
+            cursor: pointer;
         }
         a{
             text-decoration: none;
@@ -53,6 +68,7 @@
             position: relative;
             color: black;
             border: solid black 2px;
+            min-height: 55px;
         }
         .left{
             width: 30vw;
@@ -64,9 +80,13 @@
 </head>
 <body>
     <script type="module">
-        function createTextElement(tag, text){
+        const quantityKey = "cartQuantity";
+        const productKey = "product";
+        
+        function createTextElement(tag, text, className){
             let element = document.createElement(tag);
             element.innerHTML = text;
+            element.className = className;
             
             return element;
         }
@@ -83,13 +103,55 @@
             return [];
         }
         
+        function addToCart(product){
+            let createProductKey = id => `${productKey}-${id}`;
+            
+            let existingProduct = JSON.parse(localStorage.getItem(createProductKey(product.id)));
+            if (existingProduct) 
+            {
+                existingProduct.quantity++;
+            }
+            else{
+                existingProduct = { ...product };
+                existingProduct.quantity = 1;
+            }
+
+            localStorage.setItem(quantityKey, +localStorage.getItem(quantityKey) + 1 + '');
+            
+            localStorage.setItem(createProductKey(product.id), JSON.stringify(existingProduct));
+            console.log(JSON.stringify(existingProduct));
+
+            setCartQuantity();
+        }
+
+        function setCartQuantity(){
+            let count = 0;
+            let totalPrice = 0;
+            
+            for (let i = 0; i < localStorage.length; i++){
+                let key = localStorage.key(i);
+                if (!key.startsWith(productKey))
+                    continue;
+                
+                let item = JSON.parse(localStorage.getItem(key));
+                totalPrice += item.price * item.quantity;
+                count += item.quantity;
+            }
+            
+            let cartBar = document.querySelector("cart-bar");
+            let span = createTextElement("span", `Your cart: ${count} items, ${(Math.round(totalPrice * 100) / 100).toFixed(2)} P`, "cart-bar-label");
+            
+            cartBar.innerHTML = "";
+            cartBar.appendChild(span);
+            cartBar.appendChild(createTextElement("button", "Checkout"));
+        }
+        
         async function main(){
             let responseData = await tryGetData("/all-categories");
 
             let container = document.getElementById("categories");
             for (let category of responseData){
-                let element = createTextElement("container-item", category['name']);
-                element.className = "category-item";
+                let element = createTextElement("container-item", category['name'], "category-item");
                 
                 let link = document.createElement("a");
                 link.href = `?categoryId=${category["id"]}`;
@@ -107,19 +169,26 @@
                 let element = document.createElement("container-item");
                 element.className = "product-item"
 
-                element.appendChild(createTextElement("h2", product['name']));
-                element.appendChild(createTextElement("h3", product['description']));
-                element.appendChild(createTextElement("price-label", (Math.round(product['price'] * 100) / 100).toFixed(2) + " Р"));
+                element.appendChild(createTextElement("h2", product.name));
+                element.appendChild(createTextElement("h3", product.description));
+                element.appendChild(createTextElement("label", (Math.round(product.price * 100) / 100).toFixed(2) + " Р", "price-label"));
+                
+                let addToCartButton = createTextElement("label", "Add to cart", "add-to-cart-label");
+                addToCartButton.onclick = () => addToCart(product);
+                
+                element.appendChild(addToCartButton);
 
                 container.appendChild(element);
             }
         }
         
-        main();
+        setCartQuantity();
+        await main();
     </script>
     
     <navbar>
         <a href="/">SPORTS STORE</a>
+        <cart-bar></cart-bar>
     </navbar>
     
     <container id="categories" class="left"></container>
