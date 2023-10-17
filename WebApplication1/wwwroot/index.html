@@ -6,15 +6,15 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <script type="module" src="script/base.js"></script>
-    <script type="module" src="script/setProducts.js"></script>
-    
     <navbar>
         <a href="/">SPORTS STORE</a>
-        <cart-bar></cart-bar>
+        <cart-bar><span id="cart-info" class="cart-bar-label"></span><a href="/cart.html"><button>Checkout</button></a></cart-bar>
     </navbar>
     
     <container id="categories" class="left"></container>
     <container id="products" class="right"></container>
+
+    <script type="module" src="script/base.js"></script>
+    <script type="module" src="script/setProducts.js"></script>
 </body>
 </html>

@@ -38,6 +38,19 @@ cart-bar{
     display: flex;
     float: right;
 }
+a{
+    text-decoration: none;
+    color: white;
+}
+table{
+    width: 100%;
+    color: black;
+    border-collapse: collapse;
+}
+td{
+    border-bottom: 1px solid gray;
+    padding: 8px 0 8px 0;
+}
 .cart-bar-label{
     margin-right: 6px;
 }
@@ -49,10 +62,6 @@ cart-bar{
     bottom: 6px;
     background-color: green;
     cursor: pointer;
-}
-a{
-    text-decoration: none;
-    color: white;
 }
 .category-item{
     text-align: center;

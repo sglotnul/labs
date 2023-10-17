@@ -8,9 +8,24 @@
 <body>
     <navbar>
         <a href="/">SPORTS STORE</a>
-        <cart-bar></cart-bar>
+        <cart-bar><span id="cart-info" class="cart-bar-label"></span><a href="/cart.html"><button>Checkout</button></a></cart-bar>
     </navbar>
     
     <container id="categories" class="left"></container>
+    <container class="right">
+        <h2 style="color: black">Your cart</h2>
+        <table id="cart">
+            <tr id="headers">
+                <td><b>Quantity</b></td>
+                <td><b>Item</b></td>
+                <td><b>Price</b></td>
+                <td><b>Subtotal</b></td>
+                <td></td>
+            </tr>
+        </table>
+    </container>
+    
+    <script type="module" src="script/base.js"></script>
+    <script type="module" src="script/displayCart.js"></script>
 </body>
 </html>

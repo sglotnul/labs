@@ -1,9 +1,7 @@
 import * as base from "./base.js";
 
 function addToCart(product){
-    let createProductKey = id => `${productKey}-${id}`;
-
-    let existingProduct = JSON.parse(localStorage.getItem(createProductKey(product.id)));
+    let existingProduct = JSON.parse(localStorage.getItem(base.createProductKey(product.id)));
     if (existingProduct)
     {
         existingProduct.quantity++;
@@ -12,13 +10,10 @@ function addToCart(product){
         existingProduct = { ...product };
         existingProduct.quantity = 1;
     }
-    
-    localStorage.setItem(quantityKey, +localStorage.getItem(quantityKey) + 1 + '');
 
-    localStorage.setItem(createProductKey(product.id), JSON.stringify(existingProduct));
-    console.log(JSON.stringify(existingProduct));
+    localStorage.setItem(base.createProductKey(product.id), JSON.stringify(existingProduct));
 
-    setCartQuantity();
+    base.setCartQuantity();
 }
 
 let responseData = await base.tryGetData("/products" + window.location.search);
@@ -30,7 +25,7 @@ for (let product of responseData){
 
     element.appendChild(base.createTextElement("h2", product.name));
     element.appendChild(base.createTextElement("h3", product.description));
-    element.appendChild(base.createTextElement("label", (Math.round(product.price * 100) / 100).toFixed(2) + " Р", "price-label"));
+    element.appendChild(base.createTextElement("label", base.decimalFormat(product.price) + " Р", "price-label"));
 
     let addToCartButton = base.createTextElement("label", "Add to cart", "add-to-cart-label");
     addToCartButton.onclick = () => addToCart(product);
