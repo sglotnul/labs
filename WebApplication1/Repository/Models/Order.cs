@@ -11,7 +11,9 @@ public class Order
 
     public string CustomerName { get; set; }
     
-    public string CustomeraAddress { get; }
+    public string CustomerAddress { get; set; }
+    
+    public bool GiftWrap { get; set; }
     
     public IList<Product> Products { get; set; }
 

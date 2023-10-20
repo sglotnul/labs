@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,5 +43,11 @@ public class ApiController
             await _dbContext.Set<Product>()
                 .OrderBy(p => p.Id)
                 .ToArrayAsync());
+    }
+    
+    [HttpPost("order")]
+    public async Task<IActionResult> GetProducts([FromForm] OrderForm formData)
+    {
+        return new OkResult();
     }
 }

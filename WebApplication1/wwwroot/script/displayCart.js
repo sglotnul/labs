@@ -16,12 +16,7 @@ function removeFromCart(id){
 
 let element = document.getElementById("cart");
 
-for (let i = 0; i < localStorage.length; i++){
-    let key = localStorage.key(i);
-    if (!key.startsWith(base.PRODUCT_KEY))
-        continue;
-
-    let item = JSON.parse(localStorage.getItem(key));
+for (let item of base.getProductsFromCart()){
     let itemPrice = item.price * item.quantity;
     
     let row = document.createElement("tr");
