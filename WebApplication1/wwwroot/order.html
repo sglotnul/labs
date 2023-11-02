@@ -13,31 +13,32 @@
     
     <container id="categories" class="left"></container>
     <container id="categories" class="right">
-        <form method="POST" action="/order" style="color:black">
+        <form style="color:black" id="form">
             <h1>Ship to</h1>
             <h5>Name:</h5>
-            <input type="text" class="text-input" name="Name"/>
+            <input type="text" class="text-input" id="Name"/>
             <h1>Address</h1>
             <h5>Line 1:</h5>
-            <input type="text" class="text-input" name="Line1"/>
+            <input type="text" class="text-input" id="Line1"/>
             <h5>Line 2:</h5>
-            <input type="text" class="text-input" name="Line2"/>
+            <input type="text" class="text-input" id="Line2"/>
             <h5>Line 3:</h5>
-            <input type="text" class="text-input" name="Line3"/>
+            <input type="text" class="text-input" id="Line3"/>
             <h5>City:</h5>
-            <input type="text" class="text-input" name="City"/>
+            <input type="text" class="text-input" id="City"/>
             <h5>State:</h5>
-            <input type="text" class="text-input" name="State"/>
+            <input type="text" class="text-input" id="State"/>
             <h5>Zip:</h5>
-            <input type="text" class="text-input" name="Zip"/>
+            <input type="text" class="text-input" id="Zip"/>
             <h5>Country:</h5>
-            <input type="text" class="text-input" name="Country"/>
+            <input type="text" class="text-input" id="Country"/>
             <h1>Options</h1>
-            <input type="checkbox" style="margin-right: 6px" name="GiftWrap" value="true">Gift wrap these items
-            <button type="submit">Complete order</button>
+            <input type="checkbox" style="margin-right: 6px" id="GiftWrap" value="true">Gift wrap these items
+            <button type="submit" id="submit">Complete order</button>
         </form>
     </container>
 
     <script type="module" src="script/base.js"></script>
+    <script type="module" src="script/order.js"></script>
 </body>
 </html>

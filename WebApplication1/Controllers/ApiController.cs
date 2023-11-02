@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
@@ -46,8 +47,20 @@ public class ApiController
     }
     
     [HttpPost("order")]
-    public async Task<IActionResult> GetProducts([FromForm] OrderForm formData)
+    public async Task<JsonResult> Order([FromBody] OrderForm formData)
     {
-        return new OkResult();
+        var products = _dbContext.Set<Product>().Where(p => formData.OrderIds.Contains(p.Id)).ToList();
+        
+        var order = new Order
+        {
+            CustomerName = formData.Name.Trim(),
+            CustomerAddress = string.Join(' ', formData.Country.Trim(), formData.City.Trim(), formData.State.Trim(), formData.Zip.Trim(), formData.Line1.Trim(), formData.Line2.Trim(), formData.Line3.Trim()),
+            GiftWrap = formData.GiftWrap,
+            Products = products
+        };
+        
+        var entity = _dbContext.Set<Order>().Add(order);
+
+        return new JsonResult(entity.Entity);
     }
 }
