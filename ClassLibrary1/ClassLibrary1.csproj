@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <PackageId>EmptyLib_BySglotnul</PackageId>
+        <Version>2.0.0</Version>
+        <Authors>gorbachev</Authors>
+        <Company>gorbachev_inc</Company>
+    </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+</Project>
